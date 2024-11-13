@@ -20,3 +20,19 @@ def get_db():
     finally:
         db.close()
 
+class Model(Base):
+    name = Column(String, nullable=False, unique=True)
+
+class User(Model):
+    __tablename__ = "user"
+    id = Column(Integer, primary_key=True)
+    password = Column(Integer, nullable=False, unique=True)
+    email = Column(String, nullable=False, unique=True)
+    is_admin = Column(Boolean, nullable=False, default=False)
+
+class Tour(Model):
+    __tablename__ = "tour"
+    id = Column(Integer, primary_key=True)
+    description = Column(Text, default=False)
+    cost = Column(Integer, nullable=False)
+
