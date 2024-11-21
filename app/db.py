@@ -35,4 +35,4 @@ class Tour(Model):
     id = Column(Integer, primary_key=True)
     description = Column(Text, default=False)
     cost = Column(Integer, nullable=False)
-
+    time = Column(DATETIME, nullable=False)
