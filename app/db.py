@@ -5,13 +5,18 @@ from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from sqlalchemy.orm import Session
 
+
 DATA_URL = "sqlite:///./app.db"
+
 
 engine = create_engine(DATA_URL)
 
+
 SessionLockal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 Base = declarative_base()
+
 
 def get_db():
     db = SessionLockal()
@@ -20,8 +25,10 @@ def get_db():
     finally:
         db.close()
 
+
 class Model(Base):
     name = Column(String, nullable=False, unique=True)
+
 
 class User(Model):
     __tablename__ = "user"
@@ -30,9 +37,10 @@ class User(Model):
     email = Column(String, nullable=False, unique=True)
     is_admin = Column(Boolean, nullable=False, default=False)
 
+
 class Tour(Model):
     __tablename__ = "tour"
     id = Column(Integer, primary_key=True)
     description = Column(Text, default=False)
-    cost = Column(Integer, nullable=False)
+    price = Column(Integer, nullable=False)
     time = Column(DATETIME, nullable=False)
