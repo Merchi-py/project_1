@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block import %}
+{% endblock %}
+
+{% block content %}
+    {% for tours in tours%}
+        {% tours.name %}
+        {% tours.price %}
+        {% tours.description %}
+        {% tours.time %}
+    {% endfor %}
+{% endblock %}
+

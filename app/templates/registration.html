@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block import %}
+{% endblock %}
+
+{% block content %}
+<button type="button" class="btn btn-primary reg" data-bs-toggle="modal" data-bs-target="#registrationModal" data-url="/registration">
+    Registration
+</button>
+{% endblock %}
+
+
+{% block models %}
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="registrationModalLabel">Admin Page</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <input type="text" id="Name" placeholder="Type your name...">
+              <input type="text" id="Email" placeholder="Type your email...">
+              <input type="password" id="Password" placeholder="Type your password...">
+              <input type="password" id="RPassword" placeholder="Repeat your password...">
+              {% if message %}
+                {{ message }}
+              {% endif %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveRegistration">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
