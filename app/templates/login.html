@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block import %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+      <input type="text" name="name" placeholder="Type your name...">
+      <input type="password" name="password" placeholder="Type your password...">
+      <input type="submit" value="Send">
+    </form>
+{% if message %}
+    {{ message }}
+{% endif %}
+
+{% endblock %}
