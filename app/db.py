@@ -43,4 +43,5 @@ class Tour(Model):
     id = Column(Integer, primary_key=True)
     description = Column(Text, default=False)
     price = Column(Integer, nullable=False)
+    people = Column(Integer, nullable=False)
     time = Column(DATETIME, nullable=False)
