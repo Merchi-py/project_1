@@ -14,6 +14,7 @@ $('#saveRegistration').click(function (){
             "email": $("#Email").val(),
             "password": $("#Password").val(),
             "r_password": $("#RPassword").val()
+            "is_admin": $("#Is_Admin").val()
        },
        'success': function (response){
             const registrationModal = new bootstrap.Modal("#registrationModal")
