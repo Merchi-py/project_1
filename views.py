@@ -1,5 +1,5 @@
-from .settings import *
-from .db import *
+from settings import *
+from db import *
 from fastapi import Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 

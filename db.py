@@ -27,6 +27,7 @@ def get_db():
 
 
 class Model(Base):
+    __abstract__ = True
     name = Column(String, nullable=False, unique=True)
 
 
