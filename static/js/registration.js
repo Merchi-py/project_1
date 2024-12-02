@@ -22,3 +22,4 @@ $('#saveRegistration').click(function (){
        }
    })
 });
+
