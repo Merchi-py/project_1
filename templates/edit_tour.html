@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block import %}
+{% endblock %}
+
+{% block content %}
+
+<form>
+    <input name="name" type="text" value="{{ tour.name }}">
+    <input name="price" type="number" value="{{ tour.price }}">
+    <input name="description" type="text" value="{{ tour.description }}">
+    <input name="time" type="text" value="{{ tour.time }}">
+    <input name="people" type="number" value="{{ tour.people }}">
+    <input type="submit" value="Edit">
+</form>
+
+{% endblock %}
