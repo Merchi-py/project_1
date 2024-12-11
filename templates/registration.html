@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block import %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <input type="text" name="name" placeholder="Type your name...">
+        <input type="text" name="email" placeholder="Type your email...">
+        <input type="password" name="password" placeholder="Type your password...">
+        <input type="password" name="r_password" placeholder="Repeat your password...">
+        <input type="password" name="is_admin" placeholder="Type Admin Password..">
+        <input type="submit" value="Send">
+    </form>
+{% if message %}
+    {{ message }}
+{% endif %}
+
+{% if message_admin %}
+    {{ message_admin }}
+{% endif %}
+
+
+{% endblock %}
