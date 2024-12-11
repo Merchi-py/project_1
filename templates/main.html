@@ -4,62 +4,29 @@
 {% endblock %}
 
 {% block content %}
+<select class="option">
+    <option id="TourPeople1">1 People</option>
+    <option id="TourPeople2">2 Peoples</option>
+    <option id="TourPeople3">3 Peoples</option>
+    <option id="TourPeople4">4 Peoples</option>
+    <option id="TourPeopleMore">More than 5 Peoples</option>
+</select>
     {% for tours in tours%}
     {% endfor %}
-<button type="button" class="btn btn-primary reg" data-bs-toggle="modal" data-bs-target="#registrationModal" data-url="/registration">
-    Registration
-</button>
+<a href="/registration" class="btn btn-danger">Registration</a>
+<a href="/login" class="btn btn-danger">Login</a>
+{% if user.is_admin %}
+    <a href="/add_tour" class="btn btn-danger">Add Tour</a>
+{% endif %}
+
+
 {% endblock %}
 
 {% block models %}
-<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="registrationModalLabel">Registration</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <input type="text" id="Name" placeholder="Type your name...">
-              <input type="text" id="Email" placeholder="Type your email...">
-              <input type="password" id="Password" placeholder="Type your password...">
-              <input type="password" id="RPassword" placeholder="Repeat your password...">
-              <input type="password" id="Is_Admin" placeholder="Type Admin Password..">
-              {% if message %}
-                {{ message }}
-              {% endif %}
-
-              {% if message_admin %}
-                {{ message_admin }}
-              {% endif %}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveRegistration">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+{% endblock %}
 
 
-<div class="modal fade" id="add_tourModal" tabindex="-1" aria-labelledby="add_tourModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="add_tourModalLabel">Admin Page</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <input type="text" id="Name_Tour" placeholder="Type your name...">
-              <input type="text" id="Description" placeholder="Type your email...">
-              <input type="password" id="Price" placeholder="Type your password...">
-              <input type="password" id="Time" placeholder="Repeat your password...">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveTour">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+{% block scripts %}
+<script src="delete_tour.js"></script>
+<script src="option.js"></script>
 {% endblock %}
