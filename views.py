@@ -7,22 +7,22 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 @app.get("/", response_class=HTMLResponse)
 async def main(request: Request, db: Session = Depends(get_db)):
     tours = db.query(Tour).all()
-    return templates.TemplateResponse("/main.html", {"request": request, "tours": tours})
+    user = db.query(User).get(id=id)
+    return templates.TemplateResponse("main.html", {"request": request, "tours": tours, "user": user})
 
 
-# registration_model
+@app.get('/registration', response_class=HTMLResponse)
+def login(request: Request):
+    return templates.TemplateResponse('registration.html', {"request": request})
+
 @app.post("/registration")
-async def registration(name: str = Form(), email: str = Form(), password: str = Form(), r_password: str = Form(), is_admin: str = Form() , db: Session = Depends(get_db)):
-    if r_password == password:
-        return templates.TemplateResponse("registration.html", {"message": "The passwort isn't similar"})
+async def registration(request: Request, name: str = Form(), email: str = Form(), password: str = Form(), r_password: str = Form(), is_admin: str = Form() , db: Session = Depends(get_db)):
+    if r_password != password:
+        return templates.TemplateResponse("registration.html", {"message": "The passwort isn't similar", "request": request})
     if is_admin == "Admin123":
-        user = User(name=name, email=email, password=password, is_admin=is_admin)
-        db.add(user)
-        db.commit()
-        db.refresh(user)
+        user = User(name=name, email=email, password=password, is_admin=True)
     else:
-        return templates.TemplateResponse("registration.html", {"message_admin": "The password is incorrect"})
-    user = User(name=name, email=email, password=password)
+        user = User(name=name, email=email, password=password)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -55,12 +55,18 @@ def logout(request: Request):
 # admin page
 
 # add tour
+
+@app.get("/add_tour", response_class=HTMLResponse)
+async def add_tour_page(request: Request):
+    return templates.TemplateResponse("/add_tour.html", {"request": request})
+
+
 @app.post("/add_tour")
-async def admin(name: str = Form(), price: int = Form(), description: str = Form(), time: str = Form(), people: int = Form() , db: Session = Depends(get_db)):
+async def add_tour(name: str = Form(), price: int = Form(), description: str = Form(), time: str = Form(), people: int = Form() , db: Session = Depends(get_db)):
     user = db.query(User).filter_by(name=name).first()
-    datetime.strptime(time, '%d.%m.%Y') or datetime.strptime(time, '%Y.%m.%d')
     if not user.is_admin:
         return templates.TemplateResponse("/admin.html", {"message": "Wrong password"})
+    datetime.strptime(time, '%d.%m.%Y') or datetime.strptime(time, '%Y.%m.%d')
     tours = Tour(name=name, price=price, description=description, time=time, people=people)
     db.add(tours)
     db.commit()
@@ -68,11 +74,30 @@ async def admin(name: str = Form(), price: int = Form(), description: str = Form
 
 
 #edit tour
-app.post("/edit/{tour.id}/tour")
-async def edit_tour():
-    return {}
 
-#delete tour
+
+
+@app.get("/edit_tour/{tour.id}", response_class=HTMLResponse)
+async def edit_tour_page(request: Request):
+    return templates.TemplateResponse("/edit_tour.html", {"request": request})
+@app.post("/edit_tour/{tour.id}")
+async def edit_tour(name: str = Form(), price: int = Form(), description: str = Form(), time: str = Form(), people: int = Form(), db: Session = Depends(get_db)):
+    tours = db.query(Tour).get(id=id)
+    datetime.strptime(time, '%d.%m.%Y') or datetime.strptime(time, '%Y.%m.%d')
+    tours.name = name
+    tours.price = price
+    tours.description = description
+    tours.time = time
+    tours.people = people
+    tour = Tour(name=name, price=price, description=description, time=time, people=people)
+    db.add(tour)
+    db.commit()
+    db.refresh(tour)
+    return RedirectResponse("/", status_code=303)
+
+
+
+# delete tour
 # @app.post("/delete_tour/{tour_id}")
 # async def delete_tour(db: Session = Depends(get_db)):
 #     tour = db.query(Tour).get(id=id)

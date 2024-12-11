@@ -27,12 +27,12 @@ def get_db():
         db.close()
 
 
-class Model(Base):
+class NameFieldMixin(Base):
     __abstract__ = True
     name = Column(String, nullable=False, unique=True)
 
 
-class User(Model):
+class User(NameFieldMixin):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
     password = Column(Integer, nullable=False, unique=True)
@@ -40,10 +40,11 @@ class User(Model):
     is_admin = Column(Boolean, nullable=False, default=False)
 
 
-class Tour(Model):
+class Tour(NameFieldMixin):
     __tablename__ = "tour"
     id = Column(Integer, primary_key=True)
     description = Column(Text, default=False)
     price = Column(Integer, nullable=False)
     people = Column(Integer, nullable=False)
     time = Column(DATETIME, nullable=False)
+    picture = Column(Text, default="/static/images/default.png", nullable=False)
