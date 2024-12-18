@@ -4,29 +4,62 @@
 {% endblock %}
 
 {% block content %}
-<select class="option">
-    <option id="TourPeople1">1 People</option>
-    <option id="TourPeople2">2 Peoples</option>
-    <option id="TourPeople3">3 Peoples</option>
-    <option id="TourPeople4">4 Peoples</option>
-    <option id="TourPeopleMore">More than 5 Peoples</option>
-</select>
-    {% for tours in tours%}
+    <button class="btn-price" data-price="100">100$</button>
+    <button class="btn-price" data-price="200">200$</button>
+    <button class="btn-price" data-price="400">400$</button>
+    <button class="btn-price" data-price="500">500$</button>
+    <button class="btn-price" data-price="1000">1000$+</button>
+    {% for tour in tour%}
+        {{ tour.picture }}
+        {{ tour.name }}
+        {{ tour.price }}
+        {{ tour.description }}
+        {{ tour.people }}
+        {{ tour.time }} <a href="/add_basket/{{ i.id }}" class="btn btn-primary"></a>
+        <div id="price-tours"></div>
+        {% if user.is_admin %}
+            <option value="≡">
+                <a href="/edit_tour">🖌️</a>
+                <button id="deleteTour">🗑️</button>
+            </option>
+        {% endif %}
     {% endfor %}
+
 <a href="/registration" class="btn btn-danger">Registration</a>
 <a href="/login" class="btn btn-danger">Login</a>
 {% if user.is_admin %}
     <a href="/add_tour" class="btn btn-danger">Add Tour</a>
 {% endif %}
-
-
+<button type="button" class="btn btn-primary open-basket" data-bs-toggle="modal" data-bs-target="#basketModal">
+      Basket
+    </button>>
 {% endblock %}
 
 {% block models %}
+<div class="modal fade" id="basketModal" tabindex="-1" aria-labelledby="basketModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="basketModalLabel">Кошик</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              {% for bask in bask %}
+                {{ bask.name }}
+                {{ bask.price }}
+              {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+            <button type="button" class="btn btn-primary" id="book">Забронювати</button>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
-
 
 {% block scripts %}
 <script src="delete_tour.js"></script>
 <script src="option.js"></script>
+<script src="basket.js"></script>
 {% endblock %}
