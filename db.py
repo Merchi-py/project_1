@@ -37,6 +37,7 @@ class User(NameFieldMixin):
     id = Column(Integer, primary_key=True)
     password = Column(Integer, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
+    balance = Column(Integer, nullable=False, default=0)
     is_admin = Column(Boolean, nullable=False, default=False)
 
 
@@ -48,3 +49,4 @@ class Tour(NameFieldMixin):
     people = Column(Integer, nullable=False)
     time = Column(DATETIME, nullable=False)
     picture = Column(Text, default="/static/images/default.png", nullable=False)
+
