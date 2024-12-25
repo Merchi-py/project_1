@@ -3,8 +3,8 @@ $("#deleteTour").click(function(){
         $.ajax("/delete/tour/{id}", {
         "type": "POST",
         "async": true,
-        "dataType": json,
-        "data":{
-        };
-    })
+        "dataType": "json",
+        "data": {
+        }
+    });
 })
