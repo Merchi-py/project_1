@@ -5,13 +5,16 @@
 
 {% block content %}
 
-<form>
+<form method="post" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="Type a name of the tour...">
     <input type="text" name="description" placeholder="Type a description of the tour...">
-    <input type="password" name="price" placeholder="Type a price of the tour...">
-    <input type="password" name="time" placeholder="How long...">
+    <input type="number" name="price" placeholder="Type a price of the tour...">
+    <input type="date" name="from_time" placeholder="From...">
+    <input type="date" name="to_time" placeholder="To...">
     <input type="number" name="people" placeholder="How many people...">
-    <input type="submit" value="Edit">
+    <input type="file" name="files" multiple>
+
+    <input type="submit" value="Створити">
 </form>
 
 {% endblock %}
