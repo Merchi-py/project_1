@@ -6,7 +6,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 
 
-DATA_URL = "sqlite:///./app.db"
+DATA_URL = "sqlite:///./db.db"
 
 
 engine = create_engine(DATA_URL)
@@ -47,6 +47,8 @@ class Tour(NameFieldMixin):
     description = Column(Text, default=False)
     price = Column(Integer, nullable=False)
     people = Column(Integer, nullable=False)
-    time = Column(DATETIME, nullable=False)
+    from_time = Column(DATETIME, nullable=False)
+    to_time = Column(DATETIME, nullable=False)
     picture = Column(Text, default="/static/images/default.png", nullable=False)
+
 
