@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block import %}
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block content %}
-
-<form method="post" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="Type a name of the tour...">
-    <input type="text" name="description" placeholder="Type a description of the tour...">
-    <input type="number" name="price" placeholder="Type a price of the tour...">
-    <input type="date" name="from_time" placeholder="From...">
-    <input type="date" name="to_time" placeholder="To...">
-    <input type="number" name="people" placeholder="How many people...">
-    <input type="file" name="files" multiple>
-
-    <input type="submit" value="Створити">
-</form>
-
+<div class="container-fluid">
+    <div class="row" style="height:20vh"></div>
+</div>
+        <div class="center main-color ">
+            <form method="post" enctype="multipart/form-data">
+                <input type="text" name="name" class="mt-2" style="width: 300px; height; 400px" placeholder="Type a name of the tour..."><br>
+                <textarea name="description" style="width: 400px; height; 400px" class="mt-2" placeholder="Type a description of the tour..."></textarea><br>
+                <input type="number" name="price" class="mt-2" style="width: 300px; height; 500px" placeholder="Type a price of the tour..."><br>
+                <input type="date" name="from_time" class="mt-2" style="width: 150px; height; 150px" placeholder="From">
+                <input type="date" name="to_time" style="width: 150px; height; 150px" class="mt-2" placeholder="To"><br>
+                <input type="number" name="people" style="width: 300px; height; 300px" class="mt-2" placeholder="How many people..."><br>
+                <input type="file" name="files" class="btn btn-warning mt-2" multiple><br>
+                <input type="submit" class="btn btn-danger mt-2" value="Створити">
+            </form>
+        </div>
 {% endblock %}
+
+
+
+
