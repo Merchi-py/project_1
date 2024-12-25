@@ -1,38 +1,56 @@
 {% extends 'base.html' %}
 
+
 {% block import %}
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block content %}
-    <button class="btn-price" data-price="100">100$</button>
-    <button class="btn-price" data-price="200">200$</button>
-    <button class="btn-price" data-price="400">400$</button>
-    <button class="btn-price" data-price="500">500$</button>
-    <button class="btn-price" data-price="1000">1000$+</button>
-    {% for tour in tour%}
-        {{ tour.picture }}
-        {{ tour.name }}
-        {{ tour.price }}
-        {{ tour.description }}
-        {{ tour.people }}
-        {{ tour.time }} <a href="/add_basket/{{ i.id }}" class="btn btn-primary"></a>
-        <div id="price-tours"></div>
-        {% if user.is_admin %}
-            <option value="≡">
-                <a href="/edit_tour">🖌️</a>
-                <button id="deleteTour">🗑️</button>
-            </option>
-        {% endif %}
-    {% endfor %}
 
-<a href="/registration" class="btn btn-danger">Registration</a>
-<a href="/login" class="btn btn-danger">Login</a>
-{% if user.is_admin %}
-    <a href="/add_tour" class="btn btn-danger">Add Tour</a>
-{% endif %}
-<button type="button" class="btn btn-primary open-basket" data-bs-toggle="modal" data-bs-target="#basketModal">
-      Basket
-    </button>>
+
+<div class="container-fluid">
+    <div class="row bg-primary" style="height:27vh">
+        <div class="right-side main-color">
+            <div class="mt-3">
+                {% if not user %}
+                    <a href="/registration" class="btn text-primary bg-white">Реєстрація</a>
+                    <a href="/login" class="btn text-primary bg-white">Логін</a>
+                {% endif %}
+                <button type="button" class="btn text-primary bg-white" id="openBasket" data-bs-toggle="modal" data-bs-target="#basketModal" data-url="/basket">
+                    Кошик
+                </button>
+                {% if user.is_admin %}
+                <a href="/add_tour" class="btn text-primary bg-white">Додати Тур</a>
+                {% endif %}
+                <h1 class="center"><b>Ласкаво Просимо До AviaTickets</b></h1>
+            </div>
+            <div class="left-side mb-5">
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="100" xmlns="http://www.w3.org/1999/html">100$</button>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="200">200$</button><br>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="400">400$</button>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="500">500$</button><br>
+                <button class="btn btn-price center text-primary bg-white" data-price="1000">1000$+</button>
+            </div>
+        </div>
+    </div>
+    {% if user.is_admin %}
+        <a href="/edit_tour">🖌️</a>
+        <button id="deleteTour">🗑️</button>
+    {% endif %}
+    <div id="price-tours" class="center">
+        {% for tour in tours %}
+            <h6>{{ tour.picture }}</h6>
+            <h6>{{ tour.name }}</h6>
+            <h6>{{ tour.price }}</h6>
+            <h6>{{ tour.description }}</h6>
+            <h6>{{ tour.people }} Людей</h6>
+        <h6>{{ tour.time }}</h6> <button class="btn btn-primary" id="add_to_basket" data-url="/add_basket/{{ tour.id }}">Додати</button>
+        {% endfor %}
+    </div>
+</div>
+
+
 {% endblock %}
 
 {% block models %}
@@ -43,11 +61,11 @@
             <h1 class="modal-title fs-5" id="basketModalLabel">Кошик</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-              {% for bask in bask %}
-                {{ bask.name }}
-                {{ bask.price }}
-              {% endfor %}
+          <div class="modal-body" id="bask">
+
+              {% if message %}
+                {{ message }}
+              {% endif %}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
@@ -59,7 +77,9 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="delete_tour.js"></script>
-<script src="option.js"></script>
-<script src="basket.js"></script>
+<script src="/static/js/delete_tour.js"></script>
+<script src="/static/js/option.js"></script>
+<script src="/static/js/add_basket.js"></script>
+<script src="/static/js/basket.js"></script>
+<script src="/static/js/book.js"></script>
 {% endblock %}
