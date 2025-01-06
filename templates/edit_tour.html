@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 
 {% block import %}
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block content %}
 
-<form>
-    <input name="name" type="text" value="{{ tour.name }}">
-    <input name="price" type="number" value="{{ tour.price }}">
-    <input name="description" type="text" value="{{ tour.description }}">
-    <input name="time" type="text" value="{{ tour.time }}">
-    <input name="people" type="number" value="{{ tour.people }}">
-    <input type="submit" value="Edit">
-</form>
-
 {% endblock %}
+<div class="container-fluid">
+    <div class="row" style="height:20vh"></div>
+</div>
+    <form method="post">
+    <input type="text" name="name" class="mt-2" style="width: 300px; height; 400px" value="{{ tour.name }}"><br>
+    <input type="number" name="price" class="mt-2" style="width: 300px; height; 500px" value="{{ tour.price }}"><br>
+    <input name="description" style="width: 400px; height; 400px" class="mt-2" value="{{ tour.description }}"><br>
+    <input type="date" name="from_time" class="mt-2" style="width: 150px; height; 150px" value="{{ tour.time }}">
+    <input type="date" name="to_time" style="width: 150px; height; 150px" class="mt-2" value="{{ tour.time }}"><br>
+    <input type="number" name="people" style="width: 300px; height; 300px" class="mt-2" value="{{ tour.people }}"><br>
+    <input type="submit" class="btn btn-danger mt-2" value="Редагувати">
+    </form>
