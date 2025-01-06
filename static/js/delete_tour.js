@@ -1,10 +1,11 @@
-$("#deleteTour").click(function(){
-    var btn = $(this);
-        $.ajax("/delete/tour/{id}", {
+$(".deleteTour").click(function(event) {
+    event.preventDefault();
+
+
+    $.ajax("/delete_tour/" + $(this).closest('.block').find('.tourId').val(), {
         "type": "POST",
         "async": true,
         "dataType": "json",
-        "data": {
-        }
+        "success": function(){}
     });
 })
