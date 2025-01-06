@@ -2,8 +2,8 @@
 
 
 {% block import %}
-    <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block content %}
@@ -13,74 +13,95 @@
     <div class="row bg-primary" style="height:27vh">
 
 
+        <div class="col-4 mt-3">
+            <div class="center">
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="100">100$</button>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="200">200$</button>
+                <br>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="400">400$</button>
+                <button class="btn btn-price mb-1 text-primary bg-white" data-price="500">500$</button>
+                <br>
+                <button class="btn btn-price center text-primary bg-white" data-price="1000">1000$+</button>
+            </div>
+        </div>
+
+
+        <div class="col-4">
+            <h1 class="center mt-4"><b>Ласкаво Просимо До AviaTickets</b></h1>
+        </div>
 
 
         <div class="col-4 mt-3">
-                <div class="center">
-                    <button class="btn btn-price mb-1 text-primary bg-white" data-price="100">100$</button>
-                    <button class="btn btn-price mb-1 text-primary bg-white" data-price="200">200$</button><br>
-                    <button class="btn btn-price mb-1 text-primary bg-white" data-price="400">400$</button>
-                    <button class="btn btn-price mb-1 text-primary bg-white" data-price="500">500$</button><br>
-                    <button class="btn btn-price center text-primary bg-white" data-price="1000">1000$+</button>
-                </div>
+            <div class="right-side">
+                {% if user %}
+                <button type="button" class="btn text-primary bg-white" id="openBasket" data-bs-toggle="modal"
+                        data-bs-target="#basketModal" data-url="/basket">
+                    Кошик
+                </button>
+                <br>
+                <a href="/logout" class="btn text-primary bg-white mt-1">Вихід</a><br>
+                {% endif %}
+                {% if user.is_admin %}
+                <a href="/add_tour" class="btn text-primary bg-white mt-1">Додати Тур</a><br>
+                {% endif %}
+                {% if not user %}
+                <a href="/registration" class="btn text-primary bg-white mt-1">Реєстрація</a><br>
+                <a href="/login" class="btn text-primary bg-white mt-1">Логін</a>
+                {% endif %}
             </div>
+        </div>
+        <div class="row" style="height: 300vh">
+            <div id="price-tours" class="center">
+                {% for tour in tours %}
 
-
-            <div class="col-4">
-                <h1 class="center mt-4"><b>Ласкаво Просимо До AviaTickets</b></h1>
-            </div>
-
-
-            <div class="col-4 mt-3">
-                <div class="right-side">
-                    <button type="button" class="btn text-primary bg-white" id="openBasket" data-bs-toggle="modal" data-bs-target="#basketModal" data-url="/basket">
-                        Кошик
-                    </button><br>
+                <div class="block">
+                    <img style="height: 250px; width: 350px" src="{{ tour.picture }}">
+                    <input class="tourId" type="hidden" value="{{ tour.id }}">
+                    <h4><u>{{ tour.name }}</u></h4>
+                    <h5>{{ tour.price }} $</h5>
+                    <h6>{{ tour.description }}</h6>
+                    <h6>{{ tour.people }} Перосона/ни</h6>
+                    <h6>З : {{ tour.from_time }}</h6>
+                    <h6>ПО : {{ tour.to_time }}</h6>
+                    <button class="btn btn-primary" id="add_to_basket" data-url="/add_basket/{{ tour.id }}">Додати
+                    </button>
+                    <br><br>
                     {% if user.is_admin %}
-                    <a href="/add_tour" class="btn text-primary bg-white mt-1">Додати Тур</a><br>
-                    {% endif %}
-                    {% if not user %}
-                        <a href="/registration" class="btn text-primary bg-white mt-1">Реєстрація</a><br>
-                        <a href="/login" class="btn text-primary bg-white mt-1">Логін</a>
+                    <form method="POST" action="/delete_tour/{{ tour.id }}">
+                        <a class="deleteTour btn btn-white">🗑️</a>
+                    </form>
+                    <form method="post" action="/edit_tour/{{ tour.id }}">
+                        <button class="btn btn-white">🖌️</button>
+                    </form>
                     {% endif %}
                 </div>
+                {% endfor %}
             </div>
-    <div id="price-tours" class="center">
-        {% for tour in tours %}
-            <h6>{{ tour.picture }}</h6>
-            <h6>{{ tour.name }}</h6>
-            <h6>{{ tour.price }}</h6>
-            <h6>{{ tour.description }}</h6>
-            <h6>{{ tour.people }} Людей</h6>
-        <h6>{{ tour.time }}</h6> <button class="btn btn-primary" id="add_to_basket" data-url="/add_basket/{{ tour.id }}">Додати</button>
-        {% endfor %}
+        </div>
+        {% endblock %}
+
+        {% block models %}
+        <div class="modal fade" id="basketModal" tabindex="-1" aria-labelledby="basketModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="basketModalLabel">Кошик</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="bask">
+                        {% if message %}
+                        {{ message }}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                        <button type="button" class="btn btn-primary" id="book">Забронювати</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
-{% endblock %}
-
-{% block models %}
-<div class="modal fade" id="basketModal" tabindex="-1" aria-labelledby="basketModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="basketModalLabel">Кошик</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="bask">
-
-              {% if message %}
-                {{ message }}
-              {% endif %}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
-            <button type="button" class="btn btn-primary" id="book">Забронювати</button>
-          </div>
-        </div>
-      </div>
-    </div>
 {% endblock %}
 
 {% block scripts %}
