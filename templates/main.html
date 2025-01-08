@@ -15,6 +15,7 @@
 
         <div class="col-4 mt-3">
             <div class="center">
+
                 <button class="btn btn-price mb-1 text-primary bg-white" data-price="100">100$</button>
                 <button class="btn btn-price mb-1 text-primary bg-white" data-price="200">200$</button>
                 <br>
@@ -54,8 +55,8 @@
             <div id="price-tours" class="center">
                 {% for tour in tours %}
 
-                <div class="block">
-                    <img style="height: 250px; width: 350px" src="{{ tour.picture }}">
+                <div class="block" style="width: 500px; border: 2px solid black; border-radius: 5px; padding: 15px; margin: 10px;  margin-top: 100px;">
+                    <img style="height: 250px; width: 350px;" src="{{ tour.picture }}">
                     <input class="tourId" type="hidden" value="{{ tour.id }}">
                     <h4><u>{{ tour.name }}</u></h4>
                     <h5>{{ tour.price }} $</h5>
@@ -67,12 +68,10 @@
                     </button>
                     <br><br>
                     {% if user.is_admin %}
-                    <form method="POST" action="/delete_tour/{{ tour.id }}">
+                    <div class="action-buttons">
                         <a class="deleteTour btn btn-white">🗑️</a>
-                    </form>
-                    <form method="post" action="/edit_tour/{{ tour.id }}">
-                        <button class="btn btn-white">🖌️</button>
-                    </form>
+                        <a href="/edit_tour/{{ tour.id }}" class="btn btn-white">🖌️</a>
+                    </div>
                     {% endif %}
                 </div>
                 {% endfor %}
