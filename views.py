@@ -28,9 +28,39 @@ async def main(request: Request, db: Session = Depends(get_db)):
 @login_required
 async def main_post(request: Request, price : int = Form(), db: Session = Depends(get_db)):
     price_tours = db.query(Tour).filter_by(price=price)
+    user = db.query(User).get(request.session["user_id"])
     tours = ""
     for t in price_tours:
-        tours += f"{t.name} {t.price} {t.description} {t.people} {t.from_time} {t.to_time} static/images/{t.id}"
+        if user.is_admin:
+
+            tours += f"""<img style='height: 250px; width: 350px;' src='/static/images/{t.id}.jpg'>
+             <h4><u>{t.name}</u></h4>
+             <h5>{t.price}$</h5>
+             <h6>{t.description}</h6>
+             <h6>{t.from_time}</h6>
+             <h6>{t.to_time}</h6>
+             <h6>{t.people} Перосона/ни</h6>
+             <button class='btn btn-primary add_to_basket' data-url='/add_basket/{t.id}'>Додати
+             </button>
+             <div class='action-buttons'>
+                <a class='deleteTour btn btn-white'>🗑️</a>
+                <a href='/edit_tour/{t.id}' class='btn btn-white'>🖌️</a>
+            </div>
+             """
+        else:
+            tours += f"""<img style='height: 250px; width: 350px;' src='/static/images/{t.id}.jpg'>
+                         <h4><u>{t.name}</u></h4>
+                         <h5>{t.price}$</h5>
+                         <h6>{t.description}</h6>
+                         <h6>{t.from_time}</h6>
+                         <h6>{t.to_time}</h6>
+                         <h6>{t.people} Перосона/ни</h6>
+                         <button class='btn btn-primary add_to_basket' data-url='/add_basket/{t.id}'>Додати
+                         </button>
+                         """
+
+
+
     return {"tours": tours}
 
 # user_registration_page
@@ -120,29 +150,48 @@ async def add_tour(
 
 
 #edit tour
-@app.get("/edit_tour/{id}")
+@app.get("/edit_tour/{tour_id}")
 @login_required
-async def edit_tour_page(id, request: Request, db: Session = Depends(get_db)):
-    tour = db.query(Tour).get(id)
+async def edit_tour_page(request: Request, tour_id, db: Session = Depends(get_db)):
+    tour = db.query(Tour).get(tour_id)
     return templates.TemplateResponse("/edit_tour.html", {"request": request, "tour": tour})
 
 
 
-@app.post("/edit_tour/{id}")
+@app.post("/edit_tour/{tour_id}")
 @login_required
-async def edit_tour(id, name: str = Form(), price: int = Form(), description: str = Form(), from_time: str = Form(), to_time: str = Form(), people: int = Form(), db: Session = Depends(get_db)):
-    tour = db.query(Tour).get(id)
-    from_time = datetime.strptime(from_time, '%Y-%m-%d')
-    to_time = datetime.strptime(to_time, '%Y-%m-%d')
-    tour.name = name
-    tour.price = price
-    tour.description = description
-    tour.from_time = from_time
-    tour.to_time = to_time
-    tour.people = people
-    db.add(tour)
-    db.commit()
-    db.refresh(tour)
+async def edit_tour(
+                    request: Request,
+                    tour_id: int,
+                    name: str = Form(),
+                    price: int = Form(),
+                    description: str = Form(),
+                    from_time: str = Form(),
+                    to_time: str = Form(),
+                    people: int = Form(),
+                    db: Session = Depends(get_db)
+                    ):
+    tour = db.query(Tour).get(tour_id)
+    if not to_time or from_time:
+        tour.name = name
+        tour.price = price
+        tour.description = description
+        tour.people = people
+        db.add(tour)
+        db.commit()
+        db.refresh(tour)
+    else:
+        from_time = datetime.strptime(from_time, '%Y-%m-%d')
+        to_time = datetime.strptime(to_time, '%Y-%m-%d')
+        tour.name = name
+        tour.price = price
+        tour.description = description
+        tour.from_time = from_time
+        tour.to_time = to_time
+        tour.people = people
+        db.add(tour)
+        db.commit()
+        db.refresh(tour)
     return RedirectResponse("/", status_code=303)
 
 
@@ -150,7 +199,7 @@ async def edit_tour(id, name: str = Form(), price: int = Form(), description: st
 # delete tour
 @app.post("/delete_tour/{tour_id}")
 @login_required
-async def delete_tour(tour_id: int, db: Session = Depends(get_db)):
+async def delete_tour(request: Request, tour_id: int, db: Session = Depends(get_db)):
     tour = db.query(Tour).get(tour_id)
     db.delete(tour)
     db.commit()
@@ -158,21 +207,24 @@ async def delete_tour(tour_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/add_basket/{tour_id}")
-async def add_basket(tour_id: int, request: Request):
+async def add_basket(request: Request, tour_id: str):
     if not request.session.get("basket"):
         request.session["basket"] = {}
-    request.session["basket"].append(tour_id)
-    return RedirectResponse("/", status_code=303)
+    if request.session['basket'].get(tour_id) is None:
+        request.session["basket"][tour_id] = 1
+    else:
+        request.session["basket"][tour_id] += 1
+    return {}
 
 
 @app.post("/basket")
 async def basket(request: Request, db: Session = Depends(get_db)):
     basket = ""
-    for b in request.session["basket"]:
-            tour = db.query(Tour).get(b)
-            if request.session["basket"]
-            basket += f"{tour.name} {tour.price}"
+    for id, amount in request.session["basket"].items():
+        tour = db.query(Tour).get(int(id))
+        basket += f"{tour.name} {tour.price * amount}: {amount}"
     return {"basket": basket}
+
 
 
 
