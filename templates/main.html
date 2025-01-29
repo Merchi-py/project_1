@@ -15,7 +15,7 @@
 
         <div class="col-4 mt-3">
             <div class="center">
-
+                <h3 class="text-white"><b>Фільтр</b></h3>
                 <button class="btn btn-price mb-1 text-primary bg-white" data-price="100">100$</button>
                 <button class="btn btn-price mb-1 text-primary bg-white" data-price="200">200$</button>
                 <br>
@@ -23,12 +23,14 @@
                 <button class="btn btn-price mb-1 text-primary bg-white" data-price="500">500$</button>
                 <br>
                 <button class="btn btn-price center text-primary bg-white" data-price="1000">1000$+</button>
+                <a href="/" class="btn center text-primary bg-white">Без</a>
             </div>
         </div>
 
 
+
         <div class="col-4">
-            <h1 class="center mt-4"><b>Ласкаво Просимо До AviaTickets</b></h1>
+            <h1 class="center mt-4 text-white"><b>Ласкаво Просимо До AVIATICKETS</b></h1>
         </div>
 
 
@@ -54,8 +56,7 @@
         <div class="row" style="height: 300vh">
             <div id="price-tours" class="center">
                 {% for tour in tours %}
-
-                <div class="block" style="width: 500px; border: 2px solid black; border-radius: 5px; padding: 15px; margin: 10px;  margin-top: 100px;">
+                <div class="block"  style="height: 600px; width: 500px; border: 2px solid black; border-radius: 5px; padding: 15px; margin: 10px;  margin-top: 100px;">
                     <img style="height: 250px; width: 350px;" src="{{ tour.picture }}">
                     <input class="tourId" type="hidden" value="{{ tour.id }}">
                     <h4><u>{{ tour.name }}</u></h4>
@@ -64,13 +65,13 @@
                     <h6>{{ tour.people }} Перосона/ни</h6>
                     <h6>З : {{ tour.from_time }}</h6>
                     <h6>ПО : {{ tour.to_time }}</h6>
-                    <button class="btn btn-primary" id="add_to_basket" data-url="/add_basket/{{ tour.id }}">Додати
+                    <button class='btn btn-primary add_to_basket' data-url='/add_basket/{{ tour.id }}'>Додати
                     </button>
                     <br><br>
                     {% if user.is_admin %}
-                    <div class="action-buttons">
-                        <a class="deleteTour btn btn-white">🗑️</a>
-                        <a href="/edit_tour/{{ tour.id }}" class="btn btn-white">🖌️</a>
+                    <div class='action-buttons'>
+                        <a class='deleteTour btn btn-white'>🗑️</a>
+                        <a href='/edit_tour/{{ tour.id }}' class='btn btn-white'>🖌️</a>
                     </div>
                     {% endif %}
                 </div>
@@ -87,7 +88,11 @@
                         <h1 class="modal-title fs-5" id="basketModalLabel">Кошик</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="bask">
+                    <div class="modal-body">
+                        <div>
+                            <b id="bask">
+                            </b>
+                        </div>
                         {% if message %}
                         {{ message }}
                         {% endif %}
