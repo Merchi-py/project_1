@@ -6,15 +6,24 @@
 {% endblock %}
 
 {% block content %}
-    <a href="/registration" class="btn text-primary bg-white mt-1">Реєстрація</a><br>
-    <form method="post">
-      <input type="text" name="name" placeholder="Type your name...">
-      <input type="password" name="password" placeholder="Type your password...">
-      <input type="submit" value="Send">
-    </form>
-{% if message %}
-    {{ message }}
-{% endif %}
-
-
+<div class="container-fluid">
+    <div class="row main-color" style="height: 20vh">
+        <div class="col-1"><a href="/registration" class="btn btn-white text-primary bg-white mt-1">Реєстрація</a></div>
+        <div class="col-11"><h1 class="text-white center margin-login"><b>Логін</b></h1></div>
+    </div>
+    <div class="row" style="height: 80vh">
+        <div class="col-12">
+            <div class="center margin-top">
+                 <form method="post">
+            <input type="text" style="width: 300px; height; 300px" class="mt-2" name="name" placeholder="Type your name..."><br>
+            <input type="password" style="width: 300px; height; 300px" name="password" class="mt-2" placeholder="Type your password..."><br>
+            <input type="submit" style="width: 100px; height; 300px" class="mt-2" value="Send"><br>
+            </form>
+            {% if message %}
+                {{ message }}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
