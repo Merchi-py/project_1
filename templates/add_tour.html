@@ -7,9 +7,12 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row" style="height:20vh"></div>
-</div>
-        <div class="center main-color ">
+    <div class="row main-color" style="height: 20vh">
+        <div class="col-12"><h1 class="text-white center mt-4"><b>Додавання Туру</b></h1></div>
+    </div>
+    <div class="row" style="height: 80vh">
+        <div class="col-12">
+            <div class="center margin-top">
             <form method="post" enctype="multipart/form-data">
                 <input type="text" name="name" class="mt-2" style="width: 300px; height; 400px" placeholder="Type a name of the tour..."><br>
                 <textarea name="description" style="width: 400px; height; 400px" class="mt-2" placeholder="Type a description of the tour..."></textarea><br>
@@ -21,6 +24,10 @@
                 <input type="submit" class="btn btn-danger mt-2" value="Створити">
             </form>
         </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 
