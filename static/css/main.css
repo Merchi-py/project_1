@@ -5,5 +5,11 @@
     text-align: left;
 }
 
-.frame {
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
 }
