@@ -1,27 +1,40 @@
 {% extends 'base.html' %}
 
 {% block import %}
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-        <input type="text" name="name" placeholder="Type your name...">
-        <input type="text" name="email" placeholder="Type your email...">
-        <input type="password" name="password" placeholder="Type your password...">
-        <input type="password" name="r_password" placeholder="Repeat your password...">
-        <input type="password" name="is_admin" placeholder="Type Admin Password..">
-        <input type="submit" value="Send">
-    </form>
-{% if message %}
-    {{ message }}
-{% endif %}
-{% if message_error_email %}
-    {{ message_error_email }}
-{% endif %}
+<div class="container-fluid">
+    <div class="row main-color" style="height: 20vh">
+        <div class="col-12"><h1 class="text-white center mt-4"><b>Реєстрація</b></h1></div>
+    </div>
+    <div class="row" style="height: 80vh">
+        <div class="col-12">
+            <div class="center margin-top">
+                <form method="post">
+                <input type="text" name="name" style="width: 300px; height; 300px" class="mt-2" placeholder="Type your name..."><br>
+                <input type="text" name="email" style="width: 300px; height; 300px" class="mt-2" placeholder="Type your email..."><br>
+                <input type="password" name="password" style="width: 300px; height; 300px" class="mt-2" placeholder="Type your password..."><br>
+                <input type="password" name="r_password" style="width: 300px; height; 300px" class="mt-2" placeholder="Repeat your password..."><br>
+                <input type="password" name="is_admin" style="width: 300px; height; 300px" class="mt-2" placeholder="Type Admin Password.."><br>
+                <input type="submit" class="mt-2" style="width: 100px; height; 300px" value="Send">
+            </form>
+            </div>
+            {% if message %}
+                {{ message }}
+            {% endif %}
+            {% if message_error_email %}
+                {{ message_error_email }}
+            {% endif %}
 
-{% if message_admin %}
-    {{ message_admin }}
-{% endif %}
+            {% if message_admin %}
+                {{ message_admin }}
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
